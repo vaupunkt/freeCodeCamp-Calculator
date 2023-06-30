@@ -1,38 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Build a JavaScript Calculator
 
-## Getting Started
+Objective: Build an app that is functionally similar to this: https://javascript-calculator.freecodecamp.rocks/.
 
-First, run the development server:
+Fulfill the below user stories and get all of the tests to pass. Use whichever libraries or APIs you need. Give it your own personal style.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+You can use any mix of HTML, JavaScript, CSS, Bootstrap, SASS, React, Redux, and jQuery to complete this project. You should use a frontend framework (like React for example) because this section is about learning frontend frameworks. Additional technologies not listed above are not recommended and using them is at your own risk. We are looking at supporting other frontend frameworks like Angular and Vue, but they are not currently supported. We will accept and try to fix all issue reports that use the suggested technology stack for this project. Happy coding!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## User Story #1:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- My calculator should contain a clickable element containing an = (equal sign) with a corresponding id="equals".
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## User Story #2:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- My calculator should contain 10 clickable elements containing one number each from 0-9, with the following corresponding IDs: id="zero", id="one", id="two", id="three", id="four", id="five", id="six", id="seven", id="eight", and id="nine".
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## User Story #3:
 
-## Learn More
+- My calculator should contain 4 clickable elements each containing one of the 4 primary mathematical operators with the following corresponding IDs: id="add", id="subtract", id="multiply", id="divide".
 
-To learn more about Next.js, take a look at the following resources:
+## User Story #4:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- My calculator should contain a clickable element containing a . (decimal point) symbol with a corresponding id="decimal".
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## User Story #5:
 
-## Deploy on Vercel
+- My calculator should contain a clickable element with an id="clear".
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## User Story #6:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- My calculator should contain an element to display values with a corresponding id="display".
+
+## User Story #7:
+
+- At any time, pressing the clear button clears the input and output values, and returns the calculator to its initialized state; 0 should be shown in the element with the id of display.
+
+## User Story #8:
+
+- As I input numbers, I should be able to see my input in the element with the id of display.
+
+## User Story #9:
+
+- In any order, I should be able to add, subtract, multiply and divide a chain of numbers of any length, and when I hit =, the correct result should be shown in the element with the id of display.
+
+## User Story #10:
+
+- When inputting numbers, my calculator should not allow a number to begin with multiple zeros.
+
+## User Story #11:
+
+- When the decimal element is clicked, a . should append to the currently displayed value; two . in one number should not be accepted.
+
+## User Story #12:
+
+- I should be able to perform any operation (+, -, \*, /) on numbers containing decimal points.
+
+## User Story #13:
+
+- If 2 or more operators are entered consecutively, the operation performed should be the last operator entered (excluding the negative (-) sign). For example, if 5 + _ 7 = is entered, the result should be 35 (i.e. 5 _ 7); if 5 _ - 5 = is entered, the result should be -25 (i.e. 5 _ (-5)).
+
+## User Story #14:
+
+- Pressing an operator immediately following = should start a new calculation that operates on the result of the previous evaluation.
+
+## User Story #15:
+
+- My calculator should have several decimal places of precision when it comes to rounding (note that there is no exact standard, but you should be able to handle calculations like 2 / 7 with reasonable precision to at least 4 decimal places).
+
+## Note On Calculator Logic:
+
+It should be noted that there are two main schools of thought on calculator input logic:
+
+- immediate execution logic and formula logic.
+- Our example utilizes formula logic and observes order of operation precedence, immediate execution does not. Either is acceptable, but please note that depending on which you choose, your calculator may yield different results than ours for certain equations (see below example). As long as your math can be verified by another production calculator, please do not consider this a bug.
+
+EXAMPLE: 3 + 5 x 6 - 2 / 4 =
+
+Immediate Execution Logic: 11.5
+Formula/Expression Logic: 32.5
+
+You can build your project by using this CodePen template and clicking Save to create your own pen. Or you can use this CDN link to run the tests in any environment you like: https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js
+
+Once you're done, submit the URL to your working project with all its tests passing.
