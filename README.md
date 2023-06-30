@@ -73,10 +73,10 @@ It should be noted that there are two main schools of thought on calculator inpu
 - immediate execution logic and formula logic.
 - Our example utilizes formula logic and observes order of operation precedence, immediate execution does not. Either is acceptable, but please note that depending on which you choose, your calculator may yield different results than ours for certain equations (see below example). As long as your math can be verified by another production calculator, please do not consider this a bug.
 
-EXAMPLE: 3 + 5 x 6 - 2 / 4 =
+- EXAMPLE: 3 + 5 x 6 - 2 / 4 =
 
-Immediate Execution Logic: 11.5
-Formula/Expression Logic: 32.5
+  - Immediate Execution Logic: 11.5
+  - Formula/Expression Logic: 32.5
 
 You can build your project by using this CodePen template and clicking Save to create your own pen. Or you can use this CDN link to run the tests in any environment you like: https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js
 
