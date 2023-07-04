@@ -1,7 +1,11 @@
-export default function CalculationButton({ id, symbol, name }) {
+export default function CalculationButton({ button, handleCalculation }) {
 	return (
-		<button type="button" id={id} name={name}>
-			{symbol}
+		<button
+			type="button"
+			id={button.name}
+			name={button.name}
+			onClick={() => handleCalculation(button)}>
+			{button.symbol}
 		</button>
 	);
 }

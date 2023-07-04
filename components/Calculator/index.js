@@ -2,38 +2,135 @@ import NumberButton from "../../components/NumberButton";
 import CalculationButton from "../../components/CalculationButton";
 import Display from "../../components/Display";
 import ClearButton from "../ClearButton";
+import styled from "styled-components";
+import { useState } from "react";
+import buttons from "../../utils/buttons";
+
+const StyledCalculator = styled.section`
+	display: grid;
+	grid-template-rows: auto auto auto auto;
+	grid-template-columns: auto auto auto;
+	grid-gap: 1.5em;
+	margin: auto;
+	width: 400px;
+`;
 
 export default function Calculator() {
-	const buttons = [
-		{ name: "equals", symbol: "=", type: "symbol" },
-		{ name: "add", symbol: "+", type: "symbol" },
-		{ name: "subtract", symbol: "-", type: "symbol" },
-		{ name: "multiply", symbol: "*", type: "symbol" },
-		{ name: "divide", symbol: "/", type: "symbol" },
-		{ name: "decimal", symbol: ".", type: "symbol" },
-		{ name: "zero", symbol: "0", type: "number" },
-		{ name: "one", symbol: "1", type: "number" },
-		{ name: "two", symbol: "2", type: "number" },
-		{ name: "three", symbol: "3", type: "number" },
-		{ name: "four", symbol: "4", type: "number" },
-		{ name: "five", symbol: "5", type: "number" },
-		{ name: "six", symbol: "6", type: "number" },
-		{ name: "seven", symbol: "7", type: "number" },
-		{ name: "eight", symbol: "8", type: "number" },
-		{ name: "nine", symbol: "9", type: "number" },
-	];
+	const [calculation, setCalculation] = useState("0");
+	const [lastButton, setLastButton] = useState({
+		name: "lastButton",
+		type: "lastButton",
+		symbol: "",
+	});
+	const [currentNumber, setCurrentNumber] = useState("");
+
+	function handleCalculation(button) {
+		if (button.name === "clear") {
+			setCalculation("0");
+			setLastButton(""); // Setze lastButton auf null zurück
+			setCurrentNumber(""); // Setze currentNumber auf "" zurück
+			return;
+		}
+		if (
+			(lastButton.name === "equals" && button.type === "number") ||
+			(lastButton.name === undefined && button.type === "number")
+		) {
+			setCalculation(button.symbol);
+			setCurrentNumber(button.symbol);
+			setLastButton(button);
+			return;
+		}
+		if (calculation === "0" && button.name === "zero") {
+			setCalculation("0");
+			setCurrentNumber("");
+			setLastButton(button);
+			return;
+		}
+		if (
+			calculation === "0" &&
+			button.type === "symbol" &&
+			button.name !== "decimal"
+		) {
+			setCalculation(calculation + button.symbol);
+			setCurrentNumber(calculation + button.symbol);
+			setLastButton(button);
+			return;
+		}
+		if (calculation === "0" && button.type === "number") {
+			setCalculation(button.symbol);
+			setCurrentNumber(button.symbol);
+			setLastButton(button);
+			return;
+		}
+		if (button.name === "equals") {
+			const equal = safeEval(calculation);
+			if (equal === Infinity) {
+				setCalculation("ERROR");
+			} else {
+				setCalculation(equal);
+			}
+			setLastButton("");
+			setCurrentNumber("");
+			return;
+		}
+		if (
+			lastButton.name === "subtract" &&
+			button.type === "symbol" &&
+			(calculation[calculation.length - 2] === "*" ||
+				calculation[calculation.length - 2] === "/" ||
+				calculation[calculation.length - 2] === "+" ||
+				calculation[calculation.length - 2] === "-")
+		) {
+			setCalculation(calculation.slice(0, -2) + button.symbol);
+			setLastButton(button);
+			setCurrentNumber("");
+			return;
+		}
+
+		if (calculation === "0" && button.type === "symbol") {
+			setCalculation("0" + button.symbol);
+			setCurrentNumber("");
+			setLastButton(button);
+			return;
+		}
+		if (
+			lastButton.type === "symbol" &&
+			button.type === "symbol" &&
+			button.name !== "subtract"
+		) {
+			setCalculation(calculation.slice(0, -1) + button.symbol);
+			setLastButton(button);
+			setCurrentNumber("");
+			console.log("You cannot enter two operators consecutively");
+			return;
+		}
+		if (button.name === "decimal" && currentNumber.includes(".")) {
+			console.log("You cannot enter two decimals in one number");
+			return;
+		}
+		if (button.type === "number") {
+			setCurrentNumber(currentNumber + button.symbol);
+		} else if (button.name === "decimal" && !currentNumber.includes(".")) {
+			setCurrentNumber(currentNumber + button.symbol);
+		} else if (button.type === "symbol" && button.name !== "decimal") {
+			setCurrentNumber("");
+		}
+		setCalculation(calculation + button.symbol);
+		setLastButton(button);
+	}
 
 	const symbols = buttons.filter((button) => button.type === "symbol");
 	const numbers = buttons.filter((button) => button.type === "number");
 	return (
-		<>
+		// Verwende die Komponente StyledCalculator als Wrapper
+		<StyledCalculator>
+			<Display text={calculation}></Display>
 			{symbols.map((symbol) => {
 				return (
 					<CalculationButton
 						key={symbol.name}
-						id={symbol.name}
-						symbol={symbol.symbol}
-						name={symbol.name}
+						button={symbol}
+						handleCalculation={handleCalculation}
 					/>
 				);
 			})}
@@ -41,14 +138,30 @@ export default function Calculator() {
 				return (
 					<NumberButton
 						key={number.name}
-						id={number.name}
-						symbol={number.symbol}
-						name={number.name}
+						button={number}
+						handleCalculation={handleCalculation}
 					/>
 				);
 			})}
-			<ClearButton></ClearButton>
-			<Display></Display>
-		</>
+		</StyledCalculator>
 	);
+}
+
+// Definiere die Funktion safeEval, die einen Rechenausdruck sicher auswertet
+function safeEval(str) {
+	// Überprüfe, ob der Rechenausdruck gültig ist
+	const valid = /^-?\d+(?:\.\d+)?([+\-*/]-?\d+(?:\.\d+)?)*$/g.test(str);
+	// Wenn ja, werte ihn aus und gib das Ergebnis zurück
+	if (valid) {
+		// Wandle das Ergebnis in eine Zeichenkette mit vier Dezimalstellen um
+		let result = String(Function(`return (${str})`)().toFixed(4));
+		// Wandle die Zeichenkette in eine Zahl um und entferne alle unnötigen Nachkommastellen
+		result = parseFloat(result);
+		// Wandle die Zahl wieder in eine Zeichenkette um und gib sie zurück
+		return String(result);
+	}
+	// Wenn nein, gib einen Fehler zurück
+	else {
+		return "ERROR";
+	}
 }

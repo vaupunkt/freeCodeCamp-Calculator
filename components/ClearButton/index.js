@@ -1,6 +1,10 @@
-export default function ClearButton() {
+export default function ClearButton({ handleCalculation }) {
 	return (
-		<button type="button" name="clear" id="clear">
+		<button
+			type="button"
+			name="clear"
+			id="clear"
+			onClick={() => handleCalculation({ name: "clear" })}>
 			Clear
 		</button>
 	);
