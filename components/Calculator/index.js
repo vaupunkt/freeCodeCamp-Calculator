@@ -26,8 +26,8 @@ export default function Calculator() {
 	function handleCalculation(button) {
 		if (button.name === "clear") {
 			setCalculation("0");
-			setLastButton(""); // Setze lastButton auf null zurück
-			setCurrentNumber(""); // Setze currentNumber auf "" zurück
+			setLastButton("");
+			setCurrentNumber("");
 			return;
 		}
 		if (
@@ -121,7 +121,6 @@ export default function Calculator() {
 	const symbols = buttons.filter((button) => button.type === "symbol");
 	const numbers = buttons.filter((button) => button.type === "number");
 	return (
-		// Verwende die Komponente StyledCalculator als Wrapper
 		<StyledCalculator>
 			<Display text={calculation}></Display>
 			{symbols.map((symbol) => {
