@@ -8,9 +8,8 @@ import buttons from "../../utils/buttons";
 
 const StyledCalculator = styled.section`
 	display: grid;
-	grid-template-rows: auto auto auto auto;
-	grid-template-columns: auto auto auto;
-	grid-gap: 1.5em;
+	grid-template-rows: auto 3em 3em 3em;
+	grid-template-columns: repeat(4, 6em);
 	margin: auto;
 	width: 400px;
 `;
