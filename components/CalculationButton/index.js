@@ -21,7 +21,7 @@ export default function CalculationButton({ button, handleCalculation }) {
 				}
 				.equals {
 					grid-row: 3 / span 4;
-					background-color: #fed8b1;
+					background-color: rgb(255, 165, 0);
 				}
 
 				.decimal {

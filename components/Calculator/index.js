@@ -1,7 +1,6 @@
 import NumberButton from "../../components/NumberButton";
 import CalculationButton from "../../components/CalculationButton";
 import Display from "../../components/Display";
-import ClearButton from "../ClearButton";
 import styled from "styled-components";
 import { useState } from "react";
 import buttons from "../../utils/buttons";
